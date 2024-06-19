@@ -4,6 +4,8 @@
 
     - Create React App
     - Configured Tailwindcss
+    - React Router Dom
+    - Lucid react icon
 
 # API ENDPOINTS
 

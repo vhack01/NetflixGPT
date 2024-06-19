@@ -1,11 +1,6 @@
+import Body from "./components/Body";
 function App() {
-  return (
-    <div className="App">
-      <p className="font-bold text-red-500">
-        Namaste everyone! Lets build Netflex GPT
-      </p>
-    </div>
-  );
+  return <Body />;
 }
 
 export default App;
