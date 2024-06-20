@@ -3,27 +3,43 @@ import { BACKGROUND_IMAGE_URL } from "../utils/constants";
 import Header from "./Header";
 import { useRef, useState } from "react";
 
-const Login = () => {
+const Signup = () => {
+  const [name, setName] = useState("");
+  const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState(-1);
+  const nameRef = useRef(null);
+  const mobileRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
   const handleFocus = (index) => {
     if (index === 0) {
-      emailRef.current.focus();
+      nameRef.current.focus();
       setIsFocused(0);
     } else if (index === 1) {
+      mobileRef.current.focus();
       setIsFocused(1);
+    } else if (index === 2) {
+      emailRef.current.focus();
+      setIsFocused(2);
+    } else if (index === 3) {
       passwordRef.current.focus();
+      setIsFocused(3);
     }
   };
   const handleBlur = (index) => {
     if (index === 0) {
-      const value = emailRef.current.value;
+      const value = nameRef.current.value;
       if (value.trim().length === 0) setIsFocused(-1);
     } else if (index === 1) {
+      const value = mobileRef.current.value;
+      if (value.trim().length === 0) setIsFocused(-1);
+    } else if (index === 2) {
+      const value = emailRef.current.value;
+      if (value.trim().length === 0) setIsFocused(-1);
+    } else if (index === 3) {
       const value = passwordRef.current.value;
       if (value.trim().length === 0) setIsFocused(-1);
     } else {
@@ -44,25 +60,87 @@ const Login = () => {
         <Header />
         <div className="h-[90%] w-full flex justify-center items-center font-openSans">
           <div className="px-14 pt-16 pb-28 rounded bg-transparentBlack-1 w-[100%] sm:w-[80%] md:w-[60%] lg:w-[27%]">
-            <h1 className="text-white text-3xl font-bold mb-8">Sign In</h1>
+            <h1 className="text-white text-3xl font-bold mb-8">Sign Up</h1>
             <form className="flex flex-col gap-y-3">
-              {/* Email */}
+              {/* Name */}
               <div className="">
                 <div className="relative border border-red-600 rounded bg-inputBox-0 p-2 flex flex-col justify-center items-center pt-4">
                   <div
                     className={`w-full text-gray-400 transition-all duration-200 absolute pl-2 ${
-                      email.length === 0 && isFocused !== 0
+                      name.length === 0 && isFocused !== 0
                         ? "text-sm -mt-2 py-2"
                         : "text-xs -mt-8"
                     }`}
                     onClick={() => handleFocus(0)}
                   >
-                    Email or mobile number
+                    Name
                   </div>
                   <input
                     type="text"
                     className=" text-white w-full text-base outline-none bg-transparent mt-1"
                     onFocus={() => handleFocus(0)}
+                    onBlur={() => handleBlur(-1)}
+                    ref={nameRef}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="text-red-500 flex gap-x-2 my-2">
+                  {/* <BadgeX size={20} />
+                  <p className="text-sm">
+                    Please enter a valid email address or phone number.
+                  </p> */}
+                </div>
+              </div>
+
+              {/* Mobile No. */}
+              <div className="">
+                <div className="relative border border-red-600 rounded bg-inputBox-0 p-2 flex flex-col justify-center items-center pt-4">
+                  <div
+                    className={`w-full text-gray-400 transition-all duration-200 absolute pl-2 ${
+                      mobile.length === 0 && isFocused !== 1
+                        ? "text-sm -mt-2 py-2"
+                        : "text-xs -mt-8"
+                    }`}
+                    onClick={() => handleFocus(1)}
+                  >
+                    Mobile Number
+                  </div>
+                  <input
+                    type="number"
+                    className=" text-white w-full text-base outline-none bg-transparent mt-1"
+                    onFocus={() => handleFocus(1)}
+                    onBlur={() => handleBlur(-1)}
+                    ref={mobileRef}
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                  />
+                </div>
+                <div className="text-red-500 flex gap-x-2 my-2">
+                  {/* <BadgeX size={20} />
+                  <p className="text-sm">
+                    Please enter a valid email address or phone number.
+                  </p> */}
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="">
+                <div className="relative border border-red-600 rounded bg-inputBox-0 p-2 flex flex-col justify-center items-center pt-4">
+                  <div
+                    className={`w-full text-gray-400 transition-all duration-200 absolute pl-2 ${
+                      email.length === 0 && isFocused !== 2
+                        ? "text-sm -mt-2 py-2"
+                        : "text-xs -mt-8"
+                    }`}
+                    onClick={() => handleFocus(2)}
+                  >
+                    Email or mobile number
+                  </div>
+                  <input
+                    type="email"
+                    className=" text-white w-full text-base outline-none bg-transparent mt-1"
+                    onFocus={() => handleFocus(2)}
                     onBlur={() => handleBlur(-1)}
                     ref={emailRef}
                     value={email}
@@ -82,18 +160,18 @@ const Login = () => {
                 <div className="relative border border-red-600 rounded bg-inputBox-0 p-2 flex flex-col justify-center items-center pt-4">
                   <div
                     className={`w-full text-gray-400 transition-all duration-200 absolute pl-2 ${
-                      password.length === 0 && isFocused !== 1
+                      password.length === 0 && isFocused !== 3
                         ? "text-sm -mt-2"
                         : "text-xs -mt-8"
                     }`}
-                    onClick={() => handleFocus(1)}
+                    onClick={() => handleFocus(3)}
                   >
                     Password
                   </div>
                   <input
                     type="password"
                     className=" text-white w-full text-base outline-none bg-transparent mt-1"
-                    onFocus={() => handleFocus(1)}
+                    onFocus={() => handleFocus(3)}
                     onBlur={() => handleBlur(-1)}
                     ref={passwordRef}
                     value={password}
@@ -109,31 +187,15 @@ const Login = () => {
               </div>
 
               <button className="mt-4 bg-red-600 py-2 text-white rounded">
-                Sign In
+                Sign Up
               </button>
-
-              <h2 className="text-gray-200 mt-2 text-center">OR</h2>
-
-              <button className="mt-0 bg-grayTransparent-0 py-2 text-white rounded">
-                Use a sign-in code
-              </button>
-              <div className="text-white text-center mt-3">
-                Forget Password?
-              </div>
-              <div className="flex gap-x-2 cursor-pointer">
-                <input type="checkbox" id="remember_me" className="" />
-                <label htmlFor="remember_me" className="text-white">
-                  Remember me
-                </label>
-              </div>
 
               <div className="text-sm">
-                <span className="text-gray-400">New to Netflix?</span>
-                <Link to={"/signup"}>
-                  {" "}
+                <span className="text-gray-400">Already have an account?</span>
+                <Link to={"/"}>
                   <span className="text-white cursor-pointer">
                     {" "}
-                    Sign up now.
+                    Sign in now.
                   </span>
                 </Link>
               </div>
@@ -145,4 +207,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

@@ -6,6 +6,7 @@
     - Configured Tailwindcss
     - React Router Dom
     - Lucid react icon
+    - Formik -> Form validation
 
 # API ENDPOINTS
 
