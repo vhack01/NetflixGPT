@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        transparentBlack: ["#0000004d", "#000000c2"],
+        transparentBlack: ["#00000073", "#000000c2"],
         inputBox: ["#48629096"],
+        grayTransparent: ["#4949498f"],
       },
       fontFamily: {
         openSans: ["Open Sans", "sans-serif"],
