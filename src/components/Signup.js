@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { BACKGROUND_IMAGE_URL } from "../utils/constants";
 import Header from "./Header";
 import { useRef, useState } from "react";
+import { validateData } from "../utils/validate";
+import { BadgeX } from "lucide-react";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -13,6 +15,7 @@ const Signup = () => {
   const mobileRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const [errors, setErrors] = useState({});
 
   const handleFocus = (index) => {
     if (index === 0) {
@@ -47,6 +50,17 @@ const Signup = () => {
     }
   };
 
+  const handleSignup = (e) => {
+    e.preventDefault();
+    const errs = validateData({ name, mobile, email, password });
+    console.log("errors:", errs);
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+    // store signup data to database
+  };
+
   return (
     <div className="relative bg-black">
       <div className="absolute">
@@ -61,7 +75,10 @@ const Signup = () => {
         <div className="h-[90%] w-full flex justify-center items-center font-openSans">
           <div className="px-14 pt-16 pb-28 rounded bg-transparentBlack-1 w-[100%] sm:w-[80%] md:w-[60%] lg:w-[27%]">
             <h1 className="text-white text-3xl font-bold mb-8">Sign Up</h1>
-            <form className="flex flex-col gap-y-3">
+            <form
+              className="flex flex-col gap-y-3"
+              onSubmit={(e) => handleSignup(e)}
+            >
               {/* Name */}
               <div className="">
                 <div className="relative border border-red-600 rounded bg-inputBox-0 p-2 flex flex-col justify-center items-center pt-4">
@@ -86,10 +103,12 @@ const Signup = () => {
                   />
                 </div>
                 <div className="text-red-500 flex gap-x-2 my-2">
-                  {/* <BadgeX size={20} />
-                  <p className="text-sm">
-                    Please enter a valid email address or phone number.
-                  </p> */}
+                  {errors?.name && (
+                    <>
+                      <BadgeX size={20} />
+                      <p className="text-sm">{errors.name.message}</p>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -117,10 +136,12 @@ const Signup = () => {
                   />
                 </div>
                 <div className="text-red-500 flex gap-x-2 my-2">
-                  {/* <BadgeX size={20} />
-                  <p className="text-sm">
-                    Please enter a valid email address or phone number.
-                  </p> */}
+                  {errors?.mobile && (
+                    <>
+                      <BadgeX size={20} />
+                      <p className="text-sm">{errors?.mobile.message}</p>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -148,10 +169,13 @@ const Signup = () => {
                   />
                 </div>
                 <div className="text-red-500 flex gap-x-2 my-2">
-                  {/* <BadgeX size={20} />
-                  <p className="text-sm">
-                    Please enter a valid email address or phone number.
-                  </p> */}
+                  {console.log("email:", errors.hasOwnProperty("email"))}
+                  {errors["email"] && (
+                    <>
+                      <BadgeX size={20} />
+                      <p className="text-sm">{errors?.email.message}</p>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -178,12 +202,14 @@ const Signup = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                {/* <div className="text-red-500 flex gap-x-2 my-2">
-                  <BadgeX size={20} />
-                  <p className="text-sm">
-                    Please enter a valid email address or phone number.
-                  </p>
-                </div> */}
+                <div className="text-red-500 flex gap-x-2 my-2">
+                  {errors?.password && (
+                    <>
+                      <BadgeX size={20} />
+                      <p className="text-sm">{errors?.password.message}</p>
+                    </>
+                  )}
+                </div>
               </div>
 
               <button className="mt-4 bg-red-600 py-2 text-white rounded">
