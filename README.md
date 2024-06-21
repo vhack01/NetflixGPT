@@ -7,6 +7,7 @@
     - React Router Dom
     - Lucid react icon
     - Formik -> Form validation
+    - Firebase -> For backend / Authentication
 
 # API ENDPOINTS
 

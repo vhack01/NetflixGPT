@@ -11,7 +11,7 @@ export const validateData = ({ name, mobile, email, password }) => {
   if (!isValidMobile) {
     errors["mobile"] = {
       status: true,
-      message: "Invalid mobile number",
+      message: "Mobile number is",
     };
   }
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -33,3 +33,9 @@ export const validateData = ({ name, mobile, email, password }) => {
 
   return errors;
 };
+
+/* Email-acceptable format
+  user@example.com
+  user.name+tag+sorting@example.com
+  user.name@subdomain.example.com
+*/
