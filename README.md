@@ -7,7 +7,11 @@
     - React Router Dom
     - Lucid react icon
     - Formik -> Form validation
-    - Firebase -> For backend / Authentication
+    - Firebase Setup
+    - Deploying on production
+    - Create SignUp User
+    - Login
+    - Setup Redux Store
 
 # API ENDPOINTS
 

@@ -4,6 +4,10 @@ import Header from "./Header";
 import { useRef, useState } from "react";
 import { validateData } from "../utils/validate";
 import { BadgeX } from "lucide-react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import toast from "react-hot-toast";
+import { Oval } from "react-loader-spinner";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -11,6 +15,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState(-1);
+  const [isloading, setIsloading] = useState(false);
   const nameRef = useRef(null);
   const mobileRef = useRef(null);
   const emailRef = useRef(null);
@@ -50,15 +55,27 @@ const Signup = () => {
     }
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+    setIsloading(true);
     const errs = validateData({ name, mobile, email, password });
-    console.log("errors:", errs);
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
+      setIsloading(false);
       return;
     }
-    // store signup data to database
+    setErrors({});
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const user = res.UserCredentialImpl?.user;
+      console.log("user:", user);
+      setIsloading(false);
+      toast.success("Signed up successfully");
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+      setIsloading(false);
+    }
   };
 
   return (
@@ -156,7 +173,7 @@ const Signup = () => {
                     }`}
                     onClick={() => handleFocus(2)}
                   >
-                    Email or mobile number
+                    Email Address
                   </div>
                   <input
                     type="email"
@@ -169,7 +186,6 @@ const Signup = () => {
                   />
                 </div>
                 <div className="text-red-500 flex gap-x-2 my-2">
-                  {console.log("email:", errors.hasOwnProperty("email"))}
                   {errors["email"] && (
                     <>
                       <BadgeX size={20} />
@@ -212,8 +228,22 @@ const Signup = () => {
                 </div>
               </div>
 
-              <button className="mt-4 bg-red-600 py-2 text-white rounded">
-                Sign Up
+              <button className="mt-4 bg-red-600 py-2 text-white rounded flex justify-center">
+                {isloading ? (
+                  <Oval
+                    visible={true}
+                    height="20"
+                    width="20"
+                    color="#fff"
+                    ariaLabel="oval-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    strokeWidth="5"
+                    secondaryColor="#fff"
+                  />
+                ) : (
+                  " Sign Up"
+                )}
               </button>
 
               <div className="text-sm">

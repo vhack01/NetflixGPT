@@ -2,6 +2,7 @@ import Login from "./Login";
 import Browse from "./Browse";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Signup from "./Signup";
+import { Toaster } from "react-hot-toast";
 
 const Body = () => {
   const appRouter = createBrowserRouter([
@@ -22,6 +23,7 @@ const Body = () => {
   return (
     <div>
       <RouterProvider router={appRouter} />
+      <Toaster />
     </div>
   );
 };

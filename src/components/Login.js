@@ -2,11 +2,20 @@ import { Link } from "react-router-dom";
 import { BACKGROUND_IMAGE_URL } from "../utils/constants";
 import Header from "./Header";
 import { useRef, useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import toast from "react-hot-toast";
+import { Oval } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/slice/userSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState(-1);
+  const [isloading, setIsloading] = useState(false);
+  const dispatch = useDispatch();
+
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -31,6 +40,22 @@ const Login = () => {
     }
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      setIsloading(true);
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login:", res.user);
+      const user = res.user;
+      toast.success("Signed In successfully");
+      setIsloading(false);
+      dispatch(addUser(user));
+    } catch (err) {
+      toast.error(err.message);
+      setIsloading(false);
+    }
+  };
+
   return (
     <div className="relative bg-black">
       <div className="absolute">
@@ -45,7 +70,10 @@ const Login = () => {
         <div className="h-[90%] w-full flex justify-center items-center font-openSans">
           <div className="px-14 pt-16 pb-28 rounded bg-transparentBlack-1 w-[100%] sm:w-[80%] md:w-[60%] lg:w-[27%]">
             <h1 className="text-white text-3xl font-bold mb-8">Sign In</h1>
-            <form className="flex flex-col gap-y-3">
+            <form
+              className="flex flex-col gap-y-3"
+              onSubmit={(e) => handleLogin(e)}
+            >
               {/* Email */}
               <div className="">
                 <div className="relative border border-red-600 rounded bg-inputBox-0 p-2 flex flex-col justify-center items-center pt-4">
@@ -108,8 +136,22 @@ const Login = () => {
                 </div> */}
               </div>
 
-              <button className="mt-4 bg-red-600 py-2 text-white rounded">
-                Sign In
+              <button className="mt-4 bg-red-600 py-2 text-white rounded flex justify-center">
+                {isloading ? (
+                  <Oval
+                    visible={true}
+                    height="20"
+                    width="20"
+                    color="#fff"
+                    ariaLabel="oval-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    strokeWidth="5"
+                    secondaryColor="#fff"
+                  />
+                ) : (
+                  " Sign In"
+                )}
               </button>
 
               <h2 className="text-gray-200 mt-2 text-center">OR</h2>

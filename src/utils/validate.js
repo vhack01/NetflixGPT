@@ -21,8 +21,9 @@ export const validateData = ({ name, mobile, email, password }) => {
       message: "Email id is invalid",
     };
   }
-  const isValidPassword =
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/.test(password);
+  const isValidPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(
+    password
+  );
 
   if (!isValidPassword) {
     errors["password"] = {
@@ -38,4 +39,9 @@ export const validateData = ({ name, mobile, email, password }) => {
   user@example.com
   user.name+tag+sorting@example.com
   user.name@subdomain.example.com
-*/
+
+  PASSWORD
+    abc123
+    password1
+    123abc
+  */
