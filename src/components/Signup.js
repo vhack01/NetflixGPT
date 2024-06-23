@@ -1,13 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
-import { BACKGROUND_IMAGE_URL } from "../utils/constants";
-import Header from "./Header";
+import { BACKGROUND_IMAGE_URL, USER_AVATAR } from "../utils/constants";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRef, useState } from "react";
 import { validateData } from "../utils/validate";
+import { Link } from "react-router-dom";
 import { BadgeX } from "lucide-react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
+import toast from "react-hot-toast";
+import Header from "./Header";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/slice/userSlice";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -21,7 +23,7 @@ const Signup = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleFocus = (index) => {
     if (index === 0) {
@@ -68,17 +70,13 @@ const Signup = () => {
     setErrors({});
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      const user = res.UserCredentialImpl?.user;
-      console.log("user:", user);
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: "https://avatars.githubusercontent.com/u/34247798?v=4",
+        photoURL: USER_AVATAR,
       });
       setIsloading(false);
       toast.success("Signed up successfully");
-      navigate("/browse");
     } catch (err) {
-      console.log(err);
       toast.error(err.message);
       setIsloading(false);
     }

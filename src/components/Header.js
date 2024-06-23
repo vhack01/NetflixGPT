@@ -1,18 +1,17 @@
 import { ChevronDown } from "lucide-react";
-import { LOGO_URL, USER_ICON } from "../utils/constants";
-import UserDropdown from "./UserDropdown";
+import { LOGO_URL, USER_AVATAR } from "../utils/constants";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import useAuth from "../hooks/useAuth";
+import UserDropdown from "./UserDropdown";
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const user = useSelector((store) => store.user.user);
-
+  useAuth();
   return (
-    <div className="flex justify-between border items-center px-8">
-      <div className="w-[45%] sm:w-[20%] md:w-[20%] lg:w-[12%] ml-10 pt-4">
-        <img src={LOGO_URL} alt="logo" className="" />
-      </div>
+    <div className="w-full flex justify-between items-center px-10 fixed z-10 py-4">
+      <img src={LOGO_URL} alt="logo" className="w-[120px] cursor-pointer" />
       {user && (
         <div className="relative">
           <div
@@ -20,7 +19,7 @@ const Header = () => {
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <img
-              src={user?.photoURL ? user?.photoURL : USER_ICON}
+              src={user?.photoURL ? user?.photoURL : USER_AVATAR}
               alt="userIcon"
               className="w-[35px] h-[35px] rounded hover:shadow-md"
             />

@@ -1,18 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
 import { BACKGROUND_IMAGE_URL } from "../utils/constants";
-import Header from "./Header";
 import { useRef, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
 import { auth } from "../utils/firebase";
-import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
+import toast from "react-hot-toast";
+import Header from "./Header";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState(-1);
   const [isloading, setIsloading] = useState(false);
-  const navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -42,10 +41,8 @@ const Login = () => {
     try {
       setIsloading(true);
       const res = await signInWithEmailAndPassword(auth, email, password);
-      // console.log("Login:", res.user);
       toast.success("Signed In successfully");
       setIsloading(false);
-      navigate("/browse");
     } catch (err) {
       toast.error(err.message);
       setIsloading(false);
@@ -63,8 +60,8 @@ const Login = () => {
       </div>
       <div className="absolute h-screen w-screen bg-transparentBlack-0">
         <Header />
-        <div className="w-full flex justify-center items-center font-openSans">
-          <div className="px-14 pt-16 pb-28 rounded-md bg-transparentBlack-1 w-[100%] sm:w-[440px] ">
+        <div className="w-full flex justify-center items-center font-openSans mt-16">
+          <div className="px-14 pt-16 pb-28 rounded-md bg-transparentBlack-1 w-[100%] sm:w-[440px] backdrop-blur-sm">
             <h1 className="text-white text-3xl font-bold mb-8">Sign In</h1>
             <form
               className="flex flex-col gap-y-3"
