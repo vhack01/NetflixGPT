@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BACKGROUND_IMAGE_URL } from "../utils/constants";
 import Header from "./Header";
 import { useRef, useState } from "react";
 import { validateData } from "../utils/validate";
 import { BadgeX } from "lucide-react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
@@ -21,6 +21,7 @@ const Signup = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleFocus = (index) => {
     if (index === 0) {
@@ -69,8 +70,13 @@ const Signup = () => {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       const user = res.UserCredentialImpl?.user;
       console.log("user:", user);
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: "https://avatars.githubusercontent.com/u/34247798?v=4",
+      });
       setIsloading(false);
       toast.success("Signed up successfully");
+      navigate("/browse");
     } catch (err) {
       console.log(err);
       toast.error(err.message);
