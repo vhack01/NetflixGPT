@@ -1,5 +1,11 @@
+import MovieBand from "./MovieBand";
+
 const SecondaryContainer = () => {
-  return <h1>Movies Recommedation</h1>;
+  return (
+    <div>
+      <MovieBand />
+    </div>
+  );
 };
 
 export default SecondaryContainer;

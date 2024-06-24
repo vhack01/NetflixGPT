@@ -3,8 +3,8 @@ import { Info, PlayCircleIcon } from "lucide-react";
 const VideoTitle = ({ id, title, overview }) => {
   return (
     <div className="absolute w-full aspect-video font-openSans border-red-400 bg-transparentBlack-0 flex">
-      <div className="border-green-400 flex items-center">
-        <div className="md:w-8/12 lg:w-5/12 pl-14">
+      <div className="flex items-center">
+        <div className="w-11/12 md:w-8/12 lg:w-5/12 pl-14">
           <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-gray-200">
             {title}
           </h1>

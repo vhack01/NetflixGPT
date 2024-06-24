@@ -20,7 +20,10 @@
     - Unsubscribed to onAuthStateChange Callback
     - Register TMDB API & create an app to get "Access Token"
     - Get data from TMDB (Now Playing Movies) -> storing in ReduxStore(movieSlice)
-    -
+    - Created Custom Hook for (useNowPlaying, useAuth, useVideoTrailer)
+    - Fetched vidoe trailer from TMDM and Populated redux store
+    - Embedded Youtube Video
+    - Build Secondary Component (Recommended MovieList)
 
 # API ENDPOINTS
 

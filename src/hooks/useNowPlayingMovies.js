@@ -17,6 +17,7 @@ const useNowPlayingMovies = () => {
         toast.error(res.statusText);
         return;
       }
+      console.log("Now playing:", res);
       dispatch(addNowPlayingMovies(res?.data?.results));
     } catch (err) {
       toast.error(err.message);
